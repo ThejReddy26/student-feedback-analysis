@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero p-5 rounded-4 mb-4">
+  <h1 class="display-5 fw-bold">Student Feedback Analysis System</h1>
+  <p class="lead">Share course feedback anonymously and help improve the learning experience.</p>
+  <a class="btn btn-primary btn-lg me-2" href="/feedback">Give Feedback</a>
+  <a class="btn btn-outline-primary btn-lg" href="/dashboard">View Dashboard</a>
+</section>
+<div class="row g-3">
+  <div class="col-md-4"><div class="card h-100"><div class="card-body"><h5>Anonymous</h5><p class="mb-0">No student name, email, or student ID is collected.</p></div></div></div>
+  <div class="col-md-4"><div class="card h-100"><div class="card-body"><h5>Rating analysis</h5><p class="mb-0">Compare average ratings and response counts.</p></div></div></div>
+  <div class="col-md-4"><div class="card h-100"><div class="card-body"><h5>Reports</h5><p class="mb-0">View charts and export course summaries.</p></div></div></div>
+</div>
+{% endblock %}

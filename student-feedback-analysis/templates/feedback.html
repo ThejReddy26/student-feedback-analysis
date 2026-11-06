@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Submit Feedback{% endblock %}
+{% block content %}
+<h2 class="mb-2">Course Feedback Form</h2>
+<p class="text-muted">Your submission is anonymous. Rate each item from 1 (poor) to 5 (excellent).</p>
+<form method="post" class="card card-body shadow-sm">
+  <label class="form-label fw-semibold" for="course_id">Course</label>
+  <select class="form-select mb-4" name="course_id" id="course_id" required>
+    <option value="">Choose a course</option>
+    {% for course in courses %}
+      <option value="{{ course.course_id }}">{{ course.course_name }} — {{ course.faculty_name }}</option>
+    {% endfor %}
+  </select>
+  {% for question in questions %}
+    <fieldset class="mb-4">
+      <legend class="fs-6 fw-semibold">{{ loop.index }}. {{ question.question_text }}</legend>
+      <div class="d-flex gap-3 flex-wrap">
+        {% for rating in range(1, 6) %}
+          <label class="form-check">
+            <input class="form-check-input" type="radio" name="rating_{{ question.question_id }}" value="{{ rating }}" required>
+            <span class="form-check-label">{{ rating }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+  {% endfor %}
+  <label for="comment" class="form-label fw-semibold">Optional comment (avoid names or identifying details)</label>
+  <textarea class="form-control mb-3" name="comment" id="comment" maxlength="1000" rows="3" placeholder="Share a suggestion..."></textarea>
+  <button class="btn btn-primary" type="submit">Submit anonymous feedback</button>
+</form>
+{% endblock %}

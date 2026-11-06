@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+  <div><h2 class="mb-1">Feedback Dashboard</h2><p class="text-muted mb-0">Aggregated results only. Individual comments are not displayed.</p></div>
+  <a class="btn btn-outline-primary" href="/export">Export course summary CSV</a>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><div class="stat-card"><div class="text-muted">Total rating responses</div><div class="display-6 fw-bold">{{ summary.total_responses }}</div></div></div>
+  <div class="col-md-6"><div class="stat-card"><div class="text-muted">Overall average rating</div><div class="display-6 fw-bold">{{ summary.overall_average if summary.overall_average is not none else "—" }} / 5</div></div></div>
+</div>
+<h4>Course-wise summary</h4>
+<div class="table-responsive mb-4">
+<table class="table table-striped">
+<thead><tr><th>Course</th><th>Average rating</th><th>Responses</th></tr></thead>
+<tbody>
+{% for item in summary.courses %}
+<tr><td>{{ item.course_name }}</td><td>{{ item.average }} / 5</td><td>{{ item.responses }}</td></tr>
+{% else %}
+<tr><td colspan="3">No feedback has been submitted yet.</td></tr>
+{% endfor %}
+</tbody></table></div>
+<h4>Question-wise summary</h4>
+<div class="table-responsive mb-4">
+<table class="table table-striped">
+<thead><tr><th>Question</th><th>Average</th><th>Responses</th></tr></thead>
+<tbody>
+{% for item in summary.questions or [] %}
+<tr><td>{{ item.question_text }}</td><td>{{ item.average }} / 5</td><td>{{ item.responses }}</td></tr>
+{% else %}
+<tr><td colspan="3">No question-level data available.</td></tr>
+{% endfor %}
+</tbody></table></div>
+<h4>Charts</h4>
+{% if row_count %}
+<div class="row g-3">
+  <div class="col-lg-6"><div class="card p-2"><img class="img-fluid" src="{{ url_for('static', filename='charts/rating_distribution.png') }}" alt="Rating distribution chart"></div></div>
+  <div class="col-lg-6"><div class="card p-2"><img class="img-fluid" src="{{ url_for('static', filename='charts/course_comparison.png') }}" alt="Course comparison chart"></div></div>
+</div>
+<p class="small text-muted mt-2">Chart images are generated in the exports folder. If your browser cannot load them, open the PNG files directly from that folder.</p>
+{% else %}
+<p class="text-muted">Charts will appear after feedback is submitted.</p>
+{% endif %}
+{% endblock %}
